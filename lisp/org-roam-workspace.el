@@ -6,7 +6,7 @@
 	   (concat (getenv "HOMEDRIVE") (getenv "HOMEPATH")))))
 
 (setq org-roam-workspace-root (expand-file-name "roam" onedrive-root))
-(setq org-roam-workspace-list '("Default"))
+(setq org-roam-workspace-list '("Note" "Work"))
 
 (defun org-roam-default-workspace ()
   (car org-roam-workspace-list))
@@ -26,6 +26,6 @@
     (org-roam-db-sync)))
 
 (defun org-roam-workspace-setup ()
-  (org-roam-workspace-switch "Default"))
+  (org-roam-workspace-switch "Work"))
 
 (provide 'org-roam-workspace)

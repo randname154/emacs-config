@@ -1,24 +1,51 @@
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(set-face-font 'default (font-spec :script 'han :family "幼圆" :size 12.0))
+;; -*- lexical-binding: t; -*-
 
-(setq create-lockfiles nil)
-(setq backup-directory-alist (cons (cons "." (temporary-file-directory)) backup-directory-alist))
-
-
-(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+(use-package emacs
+  :config
+  (tool-bar-mode -1)
+  (column-number-mode 1)
+  (prefer-coding-system 'utf-8)
+  (setq delete-selection-mode 1)
+  (setq inhibit-startup-screen t)
+  (setq initial-major-mode 'fundamental-mode)
+  (setq initial-scratch-message nil)
+  (setq create-lockfiles nil)
+  (setq backup-directory-alist (cons (cons "." (temporary-file-directory)) backup-directory-alist))
+  (setq auto-save-default nil)
+  (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-(package-initialize)
 
-(require 'use-package)
-(setq use-package-verbose t)
-(setq use-package-always-ensure t)
+  :custom
+  (context-menu-mode t)
+  (enable-recursive-minibuffers t)
+  (read-extended-command-predicate #'command-completion-default-include-p))
+
+(load (expand-file-name "lisp/completion-config.el" user-emacs-directory) nil t)
+(load (expand-file-name "lisp/minibuffer-config.el" user-emacs-directory) nil t)
+
+;; Prevent Custom from modifying this file.
+(setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
+(load custom-file 'noerror 'nomessage)
+
+
 (setq use-package-compute-statistics t)
+(setq use-package-always-ensure t)
+
+
+(use-package nerd-icons
+  :ensure t
+  :commands nerd-icons-install-fonts)
 
 (use-package which-key
+  :ensure t
+  
   :config
-  (which-key-mode))
+  (setq which-key-show-early-on-C-h t)
+  (setq which-key-idle-delay most-positive-fixnum)
+  (setq which-key-idle-secondary-delay 1e-100)
+  
+  :hook (after-init . which-key-mode))
 
 (use-package org-roam-workspace
   :after org-roam
@@ -28,11 +55,7 @@
   :config
   (org-roam-workspace-setup))
 
-(use-package emacsql-sqlite-builtin
-  :defer t)
-
 (use-package org-roam
-  :after emacsql-sqlite-builtin
   :bind (("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
 	 ("C-c n l" . org-roam-buffer))
@@ -40,30 +63,19 @@
   :config
   (org-roam-db-autosync-mode))
 
-(use-package org-roam-ui
-  :after org-roam
-  :bind (("C-c n u" . org-roam-ui-mode))
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
 (use-package ox-pandoc
   :after org
-  :defer 15)
+  :defer 5
+  :config
+  (add-to-list 'process-coding-system-alist
+               '("pandoc" . (utf-8 . gb18030))))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(ox-pandoc org-roam-ui which-key)))
+(defun display-startup-time ()
+  "Display the startup time and number of garbage collections."
+  (message "Emacs init loaded in %.2f seconds (Full emacs-startup: %.2fs) with %d garbage collections."
+           (float-time (time-subtract after-init-time before-init-time))
+           (time-to-seconds (time-since before-init-time))
+           gcs-done))
 
+(add-hook 'emacs-startup-hook #'display-startup-time 100)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
