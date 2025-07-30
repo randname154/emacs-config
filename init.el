@@ -4,6 +4,7 @@
   :config
   (tool-bar-mode -1)
   (column-number-mode 1)
+  (set-language-environment 'Chinese-GB18030)
   (prefer-coding-system 'utf-8)
   (setq delete-selection-mode 1)
   (setq inhibit-startup-screen t)
@@ -23,7 +24,7 @@
 
 (load (expand-file-name "lisp/completion-config.el" user-emacs-directory) nil t)
 (load (expand-file-name "lisp/minibuffer-config.el" user-emacs-directory) nil t)
-
+(load (expand-file-name "lisp/orgmode-config.el" user-emacs-directory) nil t)
 ;; Prevent Custom from modifying this file.
 (setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
 (load custom-file 'noerror 'nomessage)
@@ -47,28 +48,7 @@
   
   :hook (after-init . which-key-mode))
 
-(use-package org-roam-workspace
-  :after org-roam
-  :demand t
-  :load-path "lisp"
-  :bind (("C-c n w" . org-roam-workspace-switch))
-  :config
-  (org-roam-workspace-setup))
 
-(use-package org-roam
-  :bind (("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n l" . org-roam-buffer))
-  
-  :config
-  (org-roam-db-autosync-mode))
-
-(use-package ox-pandoc
-  :after org
-  :defer 5
-  :config
-  (add-to-list 'process-coding-system-alist
-               '("pandoc" . (utf-8 . gb18030))))
 
 (defun display-startup-time ()
   "Display the startup time and number of garbage collections."

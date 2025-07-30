@@ -7,7 +7,8 @@
  '(package-selected-packages
    '(company-box company-prescient company-quickhelp consult embark
 		 embark-consult magit-gitflow marginalia nerd-icons
-		 org-roam-ui ox-pandoc undo-fu vertico-prescient)))
+		 org-download org-roam-ui ox-pandoc undo-fu
+		 vertico-prescient)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
