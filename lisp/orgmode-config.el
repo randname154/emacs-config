@@ -1,10 +1,22 @@
 ;; -*- lexical-binding: t; -*-
 
+(defvar custom/org-export-dir (concat (getenv "USERPROFILE") "/Desktop/org_exported"))
+
+(defun org-export-output-file-name-modified (orig-fun extension &optional subtreep pub-dir)
+  (unless pub-dir
+    (setq pub-dir custom/org-export-dir)
+    (unless (file-directory-p pub-dir)
+      (make-directory pub-dir)))
+  (apply orig-fun extension subtreep pub-dir nil))
+
+
 (use-package org
   :ensure nil
   :defer t
   :mode ("\\.org\\'" . org-mode)
   :config
+  (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
+  (setq org-attach-preferred-new-method 'dir)
   (setq org-attach-dir-relative t)
   (setq org-attach-id-dir "assets/"))
 
@@ -14,6 +26,7 @@
   :bind
   ("C-c p" . org-download-clipboard)
   :custom
+  (org-download-display-inline-images nil)
   (org-download-display-inline-images nil)
   (org-download-method 'attach))
   
