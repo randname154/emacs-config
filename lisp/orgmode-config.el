@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
+;; org导出的文档全部导出到一个默认的位置
 (defvar custom/org-export-dir (concat (getenv "USERPROFILE") "/Desktop/org_exported"))
 
 (defun org-export-output-file-name-modified (orig-fun extension &optional subtreep pub-dir)
@@ -26,7 +27,6 @@
   :bind
   ("C-c p" . org-download-clipboard)
   :custom
-  (org-download-display-inline-images nil)
   (org-download-display-inline-images nil)
   (org-download-method 'attach))
   

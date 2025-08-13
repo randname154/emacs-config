@@ -18,13 +18,13 @@
                          ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
   :custom
-  (context-menu-mode t)
   (enable-recursive-minibuffers t)
   (read-extended-command-predicate #'command-completion-default-include-p))
 
 (load (expand-file-name "lisp/completion-config.el" user-emacs-directory) nil t)
 (load (expand-file-name "lisp/minibuffer-config.el" user-emacs-directory) nil t)
 (load (expand-file-name "lisp/orgmode-config.el" user-emacs-directory) nil t)
+(load (expand-file-name "lisp/llm-config.el" user-emacs-directory) nil t)
 ;; Prevent Custom from modifying this file.
 (setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
 (load custom-file 'noerror 'nomessage)
@@ -38,17 +38,6 @@
   :ensure t
   :commands nerd-icons-install-fonts)
 
-(use-package which-key
-  :ensure t
-  
-  :config
-  (setq which-key-show-early-on-C-h t)
-  (setq which-key-idle-delay most-positive-fixnum)
-  (setq which-key-idle-secondary-delay 1e-100)
-  
-  :hook (after-init . which-key-mode))
-
-
 
 (defun display-startup-time ()
   "Display the startup time and number of garbage collections."
@@ -58,4 +47,3 @@
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time 100)
-
