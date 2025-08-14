@@ -24,7 +24,7 @@
 (load (expand-file-name "lisp/completion-config.el" user-emacs-directory) nil t)
 (load (expand-file-name "lisp/minibuffer-config.el" user-emacs-directory) nil t)
 (load (expand-file-name "lisp/orgmode-config.el" user-emacs-directory) nil t)
-(load (expand-file-name "lisp/llm-config.el" user-emacs-directory) nil t)
+
 ;; Prevent Custom from modifying this file.
 (setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
 (load custom-file 'noerror 'nomessage)
